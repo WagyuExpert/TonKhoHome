@@ -13,39 +13,38 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f7f4;color:#1a1a18;padding:env(safe-area-inset-top,16px) 0 calc(env(safe-area-inset-bottom,0px) + 80px);max-width:600px;margin:0 auto}
-
-/* Header */
-.header{position:sticky;top:0;z-index:100;background:#f8f7f4;padding:12px 16px 10px;border-bottom:0.5px solid rgba(0,0,0,0.08)}
-.header h1{font-size:18px;font-weight:500}
-.header .sub{font-size:12px;color:#888780;margin-top:2px}
-
-/* Stats */
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f7f4;color:#1a1a18;padding:env(safe-area-inset-top,16px) 0 calc(env(safe-area-inset-bottom,0px)+80px);max-width:600px;margin:0 auto}
+.header{position:sticky;top:0;z-index:100;background:#f8f7f4;padding:12px 16px 10px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:space-between}
+.header-left h1{font-size:18px;font-weight:500}
+.header-left .sub{font-size:12px;color:#888780;margin-top:2px}
+.edit-btn{font-size:13px;padding:6px 14px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.18);background:transparent;color:#5f5e5a;cursor:pointer;touch-action:manipulation;white-space:nowrap}
+.edit-btn.active{background:#1a1a18;color:#f8f7f4;border-color:#1a1a18}
+.edit-btn:active{opacity:.7}
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:12px 16px 0}
 .stat-card{background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:10px;padding:10px 8px;text-align:center}
 .stat-card .num{font-size:24px;font-weight:500;line-height:1.1}
 .stat-card .lbl{font-size:11px;color:#888780;margin-top:3px}
 .n-ok{color:#639922}.n-warn{color:#ba7517}.n-danger{color:#e24b4a}
-
-/* Legend */
 .legend{display:flex;gap:12px;padding:10px 16px;flex-wrap:wrap}
 .leg{display:flex;align-items:center;gap:5px;font-size:12px;color:#5f5e5a}
 .leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
 .ld-ok{background:#639922}.ld-warn{background:#ba7517}.ld-danger{background:#e24b4a}
 
-/* Section */
-.sec-label{font-size:11px;font-weight:500;color:#888780;text-transform:uppercase;letter-spacing:.07em;margin:16px 16px 6px}
+/* Section header */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin:16px 16px 6px}
+.sec-label{font-size:11px;font-weight:500;color:#888780;text-transform:uppercase;letter-spacing:.07em}
+.sec-add-btn{font-size:12px;padding:3px 10px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.18);background:transparent;color:#639922;cursor:pointer;touch-action:manipulation;display:none}
+.sec-add-btn.visible{display:block}
 
 /* Row */
 .row{display:flex;align-items:center;gap:8px;padding:11px 14px;background:#fff;border-top:0.5px solid rgba(0,0,0,0.07);border-bottom:0.5px solid rgba(0,0,0,0.07);margin-bottom:-0.5px;border-left:3px solid transparent;transition:border-left-color .15s}
 .row.ok{border-left-color:#639922}
 .row.warning{border-left-color:#ba7517}
 .row.danger{border-left-color:#e24b4a}
+.row.edit-mode{border-left-color:#888780!important}
 .item-info{flex:1;min-width:0}
 .item-name{font-size:14px;color:#1a1a18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .item-target{font-size:11px;color:#888780;margin-top:2px}
-
-/* Qty controls */
 .qty-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .qty-btn{width:32px;height:32px;border:0.5px solid rgba(0,0,0,0.18);background:#fff;border-radius:8px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#1a1a18;touch-action:manipulation}
 .qty-btn:active{background:#f1efe8;transform:scale(0.95)}
@@ -54,6 +53,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pill-ok{background:#eaf3de;color:#27500a}
 .pill-warn{background:#faeeda;color:#633806}
 .pill-danger{background:#fcebeb;color:#791f1f}
+.del-btn{width:28px;height:28px;border-radius:50%;border:0.5px solid rgba(220,50,50,0.3);background:#fcebeb;color:#a32d2d;font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation}
+.del-btn.visible{display:flex}
+.del-btn:active{background:#f7c1c1}
+
+/* Add section button */
+.add-sec-btn{display:none;margin:14px 16px 0;padding:10px;border:0.5px dashed rgba(0,0,0,0.2);border-radius:8px;background:transparent;color:#888780;font-size:13px;cursor:pointer;width:calc(100% - 32px);touch-action:manipulation}
+.add-sec-btn.visible{display:block}
+.add-sec-btn:active{background:#f1efe8}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.modal-overlay.hidden{display:none}
+.modal{background:#f8f7f4;border-radius:16px 16px 0 0;padding:20px 16px calc(env(safe-area-inset-bottom,0px)+20px);width:100%;max-width:600px}
+.modal h3{font-size:16px;font-weight:500;margin-bottom:16px}
+.modal label{font-size:13px;color:#888780;display:block;margin-bottom:4px;margin-top:12px}
+.modal input,.modal select{width:100%;padding:10px 12px;border:0.5px solid rgba(0,0,0,0.18);border-radius:8px;font-size:15px;background:#fff;color:#1a1a18;-webkit-appearance:none}
+.modal input:focus,.modal select:focus{outline:none;border-color:#639922}
+.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-btns{display:flex;gap:8px;margin-top:20px}
+.modal-btn{flex:1;padding:12px;border-radius:8px;font-size:15px;cursor:pointer;touch-action:manipulation;border:none}
+.btn-cancel{background:#f1efe8;color:#5f5e5a}
+.btn-save{background:#639922;color:#fff}
+.btn-cancel:active{opacity:.7}
+.btn-save:active{opacity:.8}
 
 /* Summary */
 .summary{margin:20px 16px 0;border:0.5px solid rgba(0,0,0,0.1);border-radius:12px;overflow:hidden;background:#fff}
@@ -73,23 +96,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .grp-danger{color:#a32d2d}.grp-warn{color:#854f0b}
 .copy-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:calc(100% - 28px);margin:8px 14px 14px;border:0.5px solid rgba(0,0,0,0.18);background:transparent;color:#5f5e5a;padding:10px 14px;border-radius:8px;font-size:14px;cursor:pointer;touch-action:manipulation}
 .copy-btn:active{background:#f1efe8}
-
-/* Bottom spacing for safe area */
 .bottom-space{height:20px}
 
 @media(prefers-color-scheme:dark){
   body{background:#1c1c1a;color:#eeecea}
   .header{background:#1c1c1a;border-bottom-color:rgba(255,255,255,0.08)}
-  .header h1{color:#eeecea}
+  .header-left h1{color:#eeecea}
+  .edit-btn{border-color:rgba(255,255,255,0.18);color:#b4b2a9}
+  .edit-btn.active{background:#eeecea;color:#1c1c1a;border-color:#eeecea}
   .stat-card{background:#2c2c2a;border-color:rgba(255,255,255,0.1)}
   .row{background:#2c2c2a;border-top-color:rgba(255,255,255,0.07);border-bottom-color:rgba(255,255,255,0.07)}
   .item-name{color:#eeecea}
+  .item-target{color:#888780}
   .qty-btn{background:#2c2c2a;border-color:rgba(255,255,255,0.18);color:#eeecea}
   .qty-btn:active{background:#323230}
   .qty-val{color:#eeecea}
   .pill-ok{background:#173404;color:#c0dd97}
   .pill-warn{background:#412402;color:#fac775}
   .pill-danger{background:#501313;color:#f7c1c1}
+  .del-btn{background:#501313;border-color:rgba(220,100,100,0.3);color:#f7c1c1}
+  .add-sec-btn{border-color:rgba(255,255,255,0.2);color:#888780}
+  .add-sec-btn:active{background:#2c2c2a}
+  .sec-add-btn{border-color:rgba(255,255,255,0.18);color:#8fbe3a}
+  .modal{background:#2c2c2a}
+  .modal h3{color:#eeecea}
+  .modal label{color:#888780}
+  .modal input,.modal select{background:#1c1c1a;color:#eeecea;border-color:rgba(255,255,255,0.18)}
+  .btn-cancel{background:#323230;color:#b4b2a9}
   .summary{background:#2c2c2a;border-color:rgba(255,255,255,0.1)}
   .sum-header{border-bottom-color:rgba(255,255,255,0.08)}
   .sum-header .title{color:#eeecea}
@@ -104,12 +137,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <body>
 
 <div class="header">
-  <h1>Tồn kho gia đình</h1>
-  <div class="sub">Nhấn − / + để cập nhật số lượng</div>
+  <div class="header-left">
+    <h1>Tồn kho gia đình</h1>
+    <div class="sub" id="header-sub">Nhấn − / + để cập nhật</div>
+  </div>
+  <button class="edit-btn" id="edit-toggle" onclick="toggleEdit()">Chỉnh sửa</button>
 </div>
 
 <div class="stats-row" id="stats"></div>
-
 <div class="legend">
   <div class="leg"><div class="leg-dot ld-ok"></div>Đủ (≥ 2)</div>
   <div class="leg"><div class="leg-dot ld-warn"></div>Sắp hết (còn 1)</div>
@@ -117,78 +152,215 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <div id="sections"></div>
+<button class="add-sec-btn" id="add-sec-btn" onclick="openModal('section')">+ Thêm nhóm mới</button>
 <div id="summary"></div>
 <div class="bottom-space"></div>
 
+<!-- Modal -->
+<div class="modal-overlay hidden" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal">
+    <h3 id="modal-title">Thêm mục</h3>
+    <div id="modal-body"></div>
+    <div class="modal-btns">
+      <button class="modal-btn btn-cancel" onclick="closeModal()">Huỷ</button>
+      <button class="modal-btn btn-save" onclick="saveModal()">Lưu</button>
+    </div>
+  </div>
+</div>
+
 <script>
-const SECTIONS=[
+const DEFAULT_SECTIONS=[
   {label:'Vệ sinh cá nhân',items:[
-    {id:'kem',name:'Kem đánh răng',unit:'tuýp',target:2,p:'must',def:2},
-    {id:'ban-chai',name:'Bàn chải đánh răng',unit:'cái',target:3,p:'must',def:3},
-    {id:'dau-goi',name:'Dầu gội',unit:'chai',target:2,p:'must',def:2},
-    {id:'sua-tam',name:'Sữa tắm',unit:'chai',target:2,p:'must',def:2},
+    {id:'kem',name:'Kem đánh răng',unit:'tuýp',target:2,def:2},
+    {id:'ban-chai',name:'Bàn chải đánh răng',unit:'cái',target:3,def:3},
+    {id:'dau-goi',name:'Dầu gội',unit:'chai',target:2,def:2},
+    {id:'sua-tam',name:'Sữa tắm',unit:'chai',target:2,def:2},
   ]},
   {label:'Giặt giũ & vệ sinh nhà',items:[
-    {id:'nuoc-giat',name:'Nước giặt',unit:'chai',target:2,p:'must',def:2},
-    {id:'nuoc-xa',name:'Nước xả vải',unit:'chai',target:2,p:'must',def:2},
+    {id:'nuoc-giat',name:'Nước giặt',unit:'chai',target:2,def:2},
+    {id:'nuoc-xa',name:'Nước xả vải',unit:'chai',target:2,def:2},
   ]},
   {label:'Giấy & tiêu hao',items:[
-    {id:'giay-uot',name:'Giấy ướt (cho bé)',unit:'gói',target:3,p:'must',def:3},
+    {id:'giay-uot',name:'Giấy ướt (cho bé)',unit:'gói',target:3,def:3},
   ]},
   {label:'Pin & điện nhỏ',items:[
-    {id:'pin-aaa',name:'Pin AAA',unit:'vỉ',target:1,p:'must',def:1},
-    {id:'pin-aa',name:'Pin AA',unit:'vỉ',target:1,p:'must',def:1},
-    {id:'pin-cr2032',name:'Pin CR2032',unit:'viên',target:3,p:'must',def:3},
-    {id:'cap-all',name:'Dây cáp các loại',unit:'bộ',target:1,p:'must',def:1},
-    {id:'o-cam',name:'Ổ cắm chống sét',unit:'cái',target:1,p:'must',def:1},
-    {id:'cu-sac',name:'Củ sạc dự phòng',unit:'cái',target:1,p:'must',def:1},
+    {id:'pin-aaa',name:'Pin AAA',unit:'vỉ',target:1,def:1},
+    {id:'pin-aa',name:'Pin AA',unit:'vỉ',target:1,def:1},
+    {id:'pin-cr2032',name:'Pin CR2032',unit:'viên',target:3,def:3},
+    {id:'cap-all',name:'Dây cáp các loại',unit:'bộ',target:1,def:1},
+    {id:'o-cam',name:'Ổ cắm chống sét',unit:'cái',target:1,def:1},
+    {id:'cu-sac',name:'Củ sạc dự phòng',unit:'cái',target:1,def:1},
   ]},
 ];
 
-const ALL_ITEMS=SECTIONS.flatMap(s=>s.items);
-function loadState(){let s={};try{s=JSON.parse(localStorage.getItem('inv-pwa')||'{}')}catch(e){}ALL_ITEMS.forEach(i=>{if(!(i.id in s))s[i.id]=i.def});return s;}
-let state=loadState();
-function save(){try{localStorage.setItem('inv-pwa',JSON.stringify(state))}catch(e){}}
+function loadData(){
+  try{
+    const saved=localStorage.getItem('inv-sections');
+    if(saved) return JSON.parse(saved);
+  }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT_SECTIONS));
+}
+function loadQty(){
+  try{return JSON.parse(localStorage.getItem('inv-qty')||'{}')}catch(e){return {};}
+}
+function saveData(){localStorage.setItem('inv-sections',JSON.stringify(sections));}
+function saveQty(){localStorage.setItem('inv-qty',JSON.stringify(qty));}
+
+let sections=loadData();
+let qty=loadQty();
+let editMode=false;
+let modalMode='';
+let modalSecIdx=-1;
+
+// Init qty defaults
+sections.forEach(s=>s.items.forEach(i=>{if(!(i.id in qty))qty[i.id]=i.def||0;}));
+
 function level(v){return v===0?'danger':v===1?'warn':'ok';}
-function adj(id,delta){state[id]=Math.max(0,(state[id]||0)+delta);save();render();}
+function adj(id,delta){qty[id]=Math.max(0,(qty[id]||0)+delta);saveQty();render();}
+
+function toggleEdit(){
+  editMode=!editMode;
+  const btn=document.getElementById('edit-toggle');
+  btn.textContent=editMode?'Xong':'Chỉnh sửa';
+  btn.classList.toggle('active',editMode);
+  document.getElementById('header-sub').textContent=editMode?'Nhấn + thêm / 🗑 xoá mục':'Nhấn − / + để cập nhật';
+  document.getElementById('add-sec-btn').classList.toggle('visible',editMode);
+  render();
+}
+
+function openModal(mode,secIdx,itemId){
+  modalMode=mode;
+  modalSecIdx=secIdx!=null?secIdx:-1;
+  const overlay=document.getElementById('modal-overlay');
+  const title=document.getElementById('modal-title');
+  const body=document.getElementById('modal-body');
+  overlay.classList.remove('hidden');
+
+  if(mode==='section'){
+    title.textContent='Thêm nhóm mới';
+    body.innerHTML=`<label>Tên nhóm</label><input id="m-sec-name" type="text" placeholder="VD: Thực phẩm dự trữ" maxlength="40">`;
+    setTimeout(()=>document.getElementById('m-sec-name').focus(),100);
+  } else if(mode==='item'){
+    title.textContent='Thêm mục mới';
+    body.innerHTML=`
+      <label>Tên mục</label>
+      <input id="m-name" type="text" placeholder="VD: Nước mắm" maxlength="40">
+      <div class="modal-row">
+        <div><label>Đơn vị</label><input id="m-unit" type="text" placeholder="chai, hộp, gói..." maxlength="10"></div>
+        <div><label>Mục tiêu tồn kho</label><input id="m-target" type="number" min="1" max="99" placeholder="2" value="2"></div>
+      </div>`;
+    setTimeout(()=>document.getElementById('m-name').focus(),100);
+  } else if(mode==='edit-item'){
+    const item=sections[secIdx].items.find(i=>i.id===itemId);
+    title.textContent='Sửa mục';
+    body.innerHTML=`
+      <input type="hidden" id="m-edit-id" value="${item.id}">
+      <label>Tên mục</label>
+      <input id="m-name" type="text" value="${item.name}" maxlength="40">
+      <div class="modal-row">
+        <div><label>Đơn vị</label><input id="m-unit" type="text" value="${item.unit}" maxlength="10"></div>
+        <div><label>Mục tiêu tồn kho</label><input id="m-target" type="number" min="1" max="99" value="${item.target}"></div>
+      </div>`;
+    setTimeout(()=>document.getElementById('m-name').focus(),100);
+  }
+}
+
+function closeModal(){document.getElementById('modal-overlay').classList.add('hidden');}
+function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
+
+function saveModal(){
+  if(modalMode==='section'){
+    const name=document.getElementById('m-sec-name').value.trim();
+    if(!name)return;
+    sections.push({label:name,items:[]});
+    saveData();
+  } else if(modalMode==='item'){
+    const name=document.getElementById('m-name').value.trim();
+    const unit=document.getElementById('m-unit').value.trim()||'cái';
+    const target=parseInt(document.getElementById('m-target').value)||2;
+    if(!name)return;
+    const id='item-'+Date.now();
+    sections[modalSecIdx].items.push({id,name,unit,target,def:target});
+    qty[id]=target;
+    saveData();saveQty();
+  } else if(modalMode==='edit-item'){
+    const id=document.getElementById('m-edit-id').value;
+    const name=document.getElementById('m-name').value.trim();
+    const unit=document.getElementById('m-unit').value.trim()||'cái';
+    const target=parseInt(document.getElementById('m-target').value)||2;
+    if(!name)return;
+    const item=sections[modalSecIdx].items.find(i=>i.id===id);
+    if(item){item.name=name;item.unit=unit;item.target=target;}
+    saveData();
+  }
+  closeModal();
+  render();
+}
+
+function deleteItem(secIdx,itemId){
+  if(!confirm('Xoá mục này?'))return;
+  sections[secIdx].items=sections[secIdx].items.filter(i=>i.id!==itemId);
+  delete qty[itemId];
+  saveData();saveQty();render();
+}
+
+function deleteSection(secIdx){
+  if(!confirm('Xoá nhóm "'+sections[secIdx].label+'" và tất cả mục bên trong?'))return;
+  sections[secIdx].items.forEach(i=>delete qty[i.id]);
+  sections.splice(secIdx,1);
+  saveData();saveQty();render();
+}
 
 function render(){
-  const active=ALL_ITEMS;
-  const cntOk=active.filter(i=>level(state[i.id]||0)==='ok').length;
-  const cntWarn=active.filter(i=>level(state[i.id]||0)==='warn').length;
-  const cntDanger=active.filter(i=>level(state[i.id]||0)==='danger').length;
+  const allItems=sections.flatMap(s=>s.items);
+  const cntOk=allItems.filter(i=>level(qty[i.id]||0)==='ok').length;
+  const cntWarn=allItems.filter(i=>level(qty[i.id]||0)==='warn').length;
+  const cntDanger=allItems.filter(i=>level(qty[i.id]||0)==='danger').length;
   document.getElementById('stats').innerHTML=`
     <div class="stat-card"><div class="num n-ok">${cntOk}</div><div class="lbl">Đủ rồi</div></div>
     <div class="stat-card"><div class="num n-warn">${cntWarn}</div><div class="lbl">Sắp hết</div></div>
     <div class="stat-card"><div class="num n-danger">${cntDanger}</div><div class="lbl">Mua ngay</div></div>`;
 
   let html='';
-  SECTIONS.forEach(sec=>{
-    html+=`<div class="sec-label">${sec.label}</div>`;
+  sections.forEach((sec,si)=>{
+    html+=`<div class="sec-header">
+      <span class="sec-label">${sec.label}</span>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button class="sec-add-btn${editMode?' visible':''}" onclick="openModal('item',${si})">+ Thêm mục</button>
+        ${editMode?`<button onclick="deleteSection(${si})" style="font-size:12px;padding:3px 8px;border-radius:6px;border:0.5px solid rgba(220,50,50,0.3);background:#fcebeb;color:#a32d2d;cursor:pointer;">Xoá nhóm</button>`:''}
+      </div>
+    </div>`;
+    if(sec.items.length===0&&editMode){
+      html+=`<div style="padding:10px 16px;font-size:13px;color:#888780;font-style:italic">Chưa có mục nào</div>`;
+    }
     sec.items.forEach(item=>{
-      const v=state[item.id]||0;
+      const v=qty[item.id]||0;
       const lv=level(v);
-      const rowCls=lv==='ok'?'ok':lv==='warn'?'warning':'danger';
+      const rowCls=editMode?'edit-mode':lv==='ok'?'ok':lv==='warn'?'warning':'danger';
       const pillCls=lv==='ok'?'pill-ok':lv==='warn'?'pill-warn':'pill-danger';
       const pillTxt=lv==='ok'?'Đủ rồi':lv==='warn'?'Sắp hết':'Mua ngay';
       html+=`<div class="row ${rowCls}">
-        <div class="item-info">
+        <div class="item-info" onclick="${editMode?`openModal('edit-item',${si},'${item.id}')`:''}">
           <div class="item-name">${item.name}</div>
           <div class="item-target">mục tiêu: ${item.target} ${item.unit}</div>
-        </div>
-        <div class="qty-wrap">
+        </div>`;
+      if(editMode){
+        html+=`<button class="del-btn visible" onclick="deleteItem(${si},'${item.id}')" aria-label="Xoá"><i class="ti ti-trash" style="font-size:14px" aria-hidden="true"></i></button>`;
+      } else {
+        html+=`<div class="qty-wrap">
           <button class="qty-btn" onclick="adj('${item.id}',-1)" aria-label="Giảm">−</button>
           <span class="qty-val">${v}</span>
           <button class="qty-btn" onclick="adj('${item.id}',1)" aria-label="Tăng">+</button>
         </div>
-        <span class="status-pill ${pillCls}">${pillTxt}</span>
-      </div>`;
+        <span class="status-pill ${pillCls}">${pillTxt}</span>`;
+      }
+      html+=`</div>`;
     });
   });
   document.getElementById('sections').innerHTML=html;
 
-  const needNow=ALL_ITEMS.filter(i=>level(state[i.id]||0)==='danger');
-  const needSoon=ALL_ITEMS.filter(i=>level(state[i.id]||0)==='warn');
+  const needNow=allItems.filter(i=>level(qty[i.id]||0)==='danger');
+  const needSoon=allItems.filter(i=>level(qty[i.id]||0)==='warn');
   let sumHtml=`<div class="summary"><div class="sum-header">
     <span class="title"><i class="ti ti-shopping-cart" style="font-size:15px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i>Cần mua</span>
     <div class="sum-badges">
@@ -213,8 +385,9 @@ function render(){
 }
 
 function copyList(){
-  const needNow=ALL_ITEMS.filter(i=>level(state[i.id]||0)==='danger');
-  const needSoon=ALL_ITEMS.filter(i=>level(state[i.id]||0)==='warn');
+  const allItems=sections.flatMap(s=>s.items);
+  const needNow=allItems.filter(i=>level(qty[i.id]||0)==='danger');
+  const needSoon=allItems.filter(i=>level(qty[i.id]||0)==='warn');
   if(!needNow.length&&!needSoon.length){alert('Không có gì cần mua!');return;}
   let text='Danh sách cần mua:\n\n';
   if(needNow.length)text+='MUA NGAY:\n'+needNow.map(i=>`[ ] ${i.name} — cần ${i.target} ${i.unit}`).join('\n')+'\n\n';
@@ -227,9 +400,7 @@ function copyList(){
   }).catch(()=>alert(text));
 }
 
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 render();
 </script>
 </body>
