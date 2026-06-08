@@ -17,9 +17,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .header{position:sticky;top:0;z-index:100;background:#f8f7f4;padding:12px 16px 10px;border-bottom:0.5px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:space-between}
 .header-left h1{font-size:18px;font-weight:500}
 .header-left .sub{font-size:12px;color:#888780;margin-top:2px}
-.edit-btn{font-size:13px;padding:6px 14px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.18);background:transparent;color:#5f5e5a;cursor:pointer;touch-action:manipulation;white-space:nowrap}
+.hbtns{display:flex;gap:6px;align-items:center}
+.edit-btn{font-size:12px;padding:6px 11px;border-radius:8px;border:0.5px solid rgba(0,0,0,0.18);background:transparent;color:#5f5e5a;cursor:pointer;touch-action:manipulation;white-space:nowrap}
 .edit-btn.active{background:#1a1a18;color:#f8f7f4;border-color:#1a1a18}
 .edit-btn:active{opacity:.7}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#888780;flex-shrink:0;transition:background .3s}
+.sync-dot.ok{background:#639922}
+.sync-dot.syncing{background:#ba7517;animation:blink 1s infinite}
+.sync-dot.err{background:#e24b4a}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:12px 16px 0}
 .stat-card{background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:10px;padding:10px 8px;text-align:center}
 .stat-card .num{font-size:24px;font-weight:500;line-height:1.1}
@@ -29,19 +35,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .leg{display:flex;align-items:center;gap:5px;font-size:12px;color:#5f5e5a}
 .leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
 .ld-ok{background:#639922}.ld-warn{background:#ba7517}.ld-danger{background:#e24b4a}
-
-/* Section header */
 .sec-header{display:flex;align-items:center;justify-content:space-between;margin:16px 16px 6px}
 .sec-label{font-size:11px;font-weight:500;color:#888780;text-transform:uppercase;letter-spacing:.07em}
 .sec-add-btn{font-size:12px;padding:3px 10px;border-radius:6px;border:0.5px solid rgba(0,0,0,0.18);background:transparent;color:#639922;cursor:pointer;touch-action:manipulation;display:none}
 .sec-add-btn.visible{display:block}
-
-/* Row */
 .row{display:flex;align-items:center;gap:8px;padding:11px 14px;background:#fff;border-top:0.5px solid rgba(0,0,0,0.07);border-bottom:0.5px solid rgba(0,0,0,0.07);margin-bottom:-0.5px;border-left:3px solid transparent;transition:border-left-color .15s}
 .row.ok{border-left-color:#639922}
 .row.warning{border-left-color:#ba7517}
 .row.danger{border-left-color:#e24b4a}
-.row.edit-mode{border-left-color:#888780!important}
+.row.emode{border-left-color:#888780!important}
 .item-info{flex:1;min-width:0}
 .item-name{font-size:14px;color:#1a1a18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .item-target{font-size:11px;color:#888780;margin-top:2px}
@@ -53,84 +55,69 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pill-ok{background:#eaf3de;color:#27500a}
 .pill-warn{background:#faeeda;color:#633806}
 .pill-danger{background:#fcebeb;color:#791f1f}
-.del-btn{width:28px;height:28px;border-radius:50%;border:0.5px solid rgba(220,50,50,0.3);background:#fcebeb;color:#a32d2d;font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation}
+.del-btn{width:28px;height:28px;border-radius:50%;border:0.5px solid rgba(220,50,50,0.3);background:#fcebeb;color:#a32d2d;font-size:14px;cursor:pointer;display:none;align-items:center;justify-content:center;flex-shrink:0;touch-action:manipulation}
 .del-btn.visible{display:flex}
 .del-btn:active{background:#f7c1c1}
-
-/* Add section button */
 .add-sec-btn{display:none;margin:14px 16px 0;padding:10px;border:0.5px dashed rgba(0,0,0,0.2);border-radius:8px;background:transparent;color:#888780;font-size:13px;cursor:pointer;width:calc(100% - 32px);touch-action:manipulation}
 .add-sec-btn.visible{display:block}
-.add-sec-btn:active{background:#f1efe8}
-
-/* Modal */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:flex;align-items:flex-end;justify-content:center}
-.modal-overlay.hidden{display:none}
-.modal{background:#f8f7f4;border-radius:16px 16px 0 0;padding:20px 16px calc(env(safe-area-inset-bottom,0px)+20px);width:100%;max-width:600px}
-.modal h3{font-size:16px;font-weight:500;margin-bottom:16px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.overlay.hidden{display:none}
+.modal{background:#f8f7f4;border-radius:16px 16px 0 0;padding:20px 16px calc(env(safe-area-inset-bottom,0px)+24px);width:100%;max-width:600px}
+.modal h3{font-size:16px;font-weight:500;margin-bottom:14px;color:#1a1a18}
 .modal label{font-size:13px;color:#888780;display:block;margin-bottom:4px;margin-top:12px}
-.modal input,.modal select{width:100%;padding:10px 12px;border:0.5px solid rgba(0,0,0,0.18);border-radius:8px;font-size:15px;background:#fff;color:#1a1a18;-webkit-appearance:none}
-.modal input:focus,.modal select:focus{outline:none;border-color:#639922}
-.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.modal-btns{display:flex;gap:8px;margin-top:20px}
-.modal-btn{flex:1;padding:12px;border-radius:8px;font-size:15px;cursor:pointer;touch-action:manipulation;border:none}
-.btn-cancel{background:#f1efe8;color:#5f5e5a}
-.btn-save{background:#639922;color:#fff}
-.btn-cancel:active{opacity:.7}
-.btn-save:active{opacity:.8}
-
-/* Summary */
-.summary{margin:20px 16px 0;border:0.5px solid rgba(0,0,0,0.1);border-radius:12px;overflow:hidden;background:#fff}
-.sum-header{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;border-bottom:0.5px solid rgba(0,0,0,0.08)}
-.sum-header .title{font-size:14px;font-weight:500}
-.sum-badges{display:flex;gap:5px}
-.sum-badge{font-size:11px;padding:2px 9px;border-radius:10px}
-.sb-danger{background:#fcebeb;color:#791f1f}
-.sb-warn{background:#faeeda;color:#633806}
+.modal input{width:100%;padding:10px 12px;border:0.5px solid rgba(0,0,0,0.18);border-radius:8px;font-size:15px;background:#fff;color:#1a1a18;outline:none;-webkit-appearance:none}
+.modal input:focus{border-color:#639922}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mbtns{display:flex;gap:8px;margin-top:20px}
+.mbtn{flex:1;padding:12px;border-radius:8px;font-size:15px;cursor:pointer;touch-action:manipulation;border:none}
+.mbtn-cancel{background:#f1efe8;color:#5f5e5a}
+.mbtn-save{background:#639922;color:#fff}
+.summary{margin:12px 16px 0;border:0.5px solid rgba(0,0,0,0.1);border-radius:12px;overflow:hidden;background:#fff}
+.sum-hdr{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;border-bottom:0.5px solid rgba(0,0,0,0.08)}
+.sum-hdr .ttl{font-size:14px;font-weight:500;color:#1a1a18}
+.sbadges{display:flex;gap:5px}
+.sbadge{font-size:11px;padding:2px 9px;border-radius:10px}
+.sb-r{background:#fcebeb;color:#791f1f}
+.sb-y{background:#faeeda;color:#633806}
 .buy-list{padding:8px 14px}
-.buy-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.06);font-size:14px}
+.buy-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.06);font-size:14px;color:#1a1a18}
 .buy-row:last-child{border-bottom:none}
 .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.dot-danger{background:#e24b4a}.dot-warn{background:#ba7517}
+.dot-r{background:#e24b4a}.dot-y{background:#ba7517}
 .empty{padding:14px 0;font-size:13px;color:#888780;font-style:italic;text-align:center}
-.grp-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;padding:8px 0 5px}
-.grp-danger{color:#a32d2d}.grp-warn{color:#854f0b}
+.grp-lbl{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;padding:8px 0 5px}
+.gl-r{color:#a32d2d}.gl-y{color:#854f0b}
 .copy-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:calc(100% - 28px);margin:8px 14px 14px;border:0.5px solid rgba(0,0,0,0.18);background:transparent;color:#5f5e5a;padding:10px 14px;border-radius:8px;font-size:14px;cursor:pointer;touch-action:manipulation}
 .copy-btn:active{background:#f1efe8}
 .bottom-space{height:20px}
-
 @media(prefers-color-scheme:dark){
   body{background:#1c1c1a;color:#eeecea}
   .header{background:#1c1c1a;border-bottom-color:rgba(255,255,255,0.08)}
-  .header-left h1{color:#eeecea}
+  .header-left h1,.modal h3{color:#eeecea}
   .edit-btn{border-color:rgba(255,255,255,0.18);color:#b4b2a9}
   .edit-btn.active{background:#eeecea;color:#1c1c1a;border-color:#eeecea}
   .stat-card{background:#2c2c2a;border-color:rgba(255,255,255,0.1)}
   .row{background:#2c2c2a;border-top-color:rgba(255,255,255,0.07);border-bottom-color:rgba(255,255,255,0.07)}
-  .item-name{color:#eeecea}
-  .item-target{color:#888780}
+  .item-name,.qty-val{color:#eeecea}
   .qty-btn{background:#2c2c2a;border-color:rgba(255,255,255,0.18);color:#eeecea}
   .qty-btn:active{background:#323230}
-  .qty-val{color:#eeecea}
   .pill-ok{background:#173404;color:#c0dd97}
   .pill-warn{background:#412402;color:#fac775}
   .pill-danger{background:#501313;color:#f7c1c1}
   .del-btn{background:#501313;border-color:rgba(220,100,100,0.3);color:#f7c1c1}
-  .add-sec-btn{border-color:rgba(255,255,255,0.2);color:#888780}
-  .add-sec-btn:active{background:#2c2c2a}
-  .sec-add-btn{border-color:rgba(255,255,255,0.18);color:#8fbe3a}
+  .add-sec-btn,.sec-add-btn{border-color:rgba(255,255,255,0.2);color:#888780}
   .modal{background:#2c2c2a}
-  .modal h3{color:#eeecea}
   .modal label{color:#888780}
-  .modal input,.modal select{background:#1c1c1a;color:#eeecea;border-color:rgba(255,255,255,0.18)}
-  .btn-cancel{background:#323230;color:#b4b2a9}
+  .modal input{background:#1c1c1a;color:#eeecea;border-color:rgba(255,255,255,0.18)}
+  .mbtn-cancel{background:#323230;color:#b4b2a9}
   .summary{background:#2c2c2a;border-color:rgba(255,255,255,0.1)}
-  .sum-header{border-bottom-color:rgba(255,255,255,0.08)}
-  .sum-header .title{color:#eeecea}
+  .sum-hdr{border-bottom-color:rgba(255,255,255,0.08)}
+  .sum-hdr .ttl{color:#eeecea}
   .buy-row{color:#eeecea;border-bottom-color:rgba(255,255,255,0.06)}
   .copy-btn{border-color:rgba(255,255,255,0.18);color:#b4b2a9}
-  .copy-btn:active{background:#323230}
-  .sb-danger{background:#501313;color:#f7c1c1}
-  .sb-warn{background:#412402;color:#fac775}
+  .sb-r{background:#501313;color:#f7c1c1}
+  .sb-y{background:#412402;color:#fac775}
+  .leg{color:#b4b2a9}
 }
 </style>
 </head>
@@ -139,37 +126,54 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="header">
   <div class="header-left">
     <h1>Tồn kho gia đình</h1>
-    <div class="sub" id="header-sub">Nhấn − / + để cập nhật</div>
+    <div class="sub" id="hsub">Đang kết nối...</div>
   </div>
-  <button class="edit-btn" id="edit-toggle" onclick="toggleEdit()">Chỉnh sửa</button>
+  <div class="hbtns">
+    <div class="sync-dot syncing" id="sdot" title="Trạng thái sync"></div>
+    <button class="edit-btn" onclick="resetAll()">↺</button>
+    <button class="edit-btn" id="etoggle" onclick="toggleEdit()">Chỉnh sửa</button>
+  </div>
 </div>
 
 <div class="stats-row" id="stats"></div>
+<div id="summary"></div>
 <div class="legend">
   <div class="leg"><div class="leg-dot ld-ok"></div>Đủ (≥ 2)</div>
   <div class="leg"><div class="leg-dot ld-warn"></div>Sắp hết (còn 1)</div>
   <div class="leg"><div class="leg-dot ld-danger"></div>Mua ngay (còn 0)</div>
 </div>
-
 <div id="sections"></div>
-<button class="add-sec-btn" id="add-sec-btn" onclick="openModal('section')">+ Thêm nhóm mới</button>
-<div id="summary"></div>
+<button class="add-sec-btn" id="addsec" onclick="openModal('section')">+ Thêm nhóm mới</button>
 <div class="bottom-space"></div>
 
-<!-- Modal -->
-<div class="modal-overlay hidden" id="modal-overlay" onclick="closeModalOutside(event)">
-  <div class="modal" id="modal">
-    <h3 id="modal-title">Thêm mục</h3>
-    <div id="modal-body"></div>
-    <div class="modal-btns">
-      <button class="modal-btn btn-cancel" onclick="closeModal()">Huỷ</button>
-      <button class="modal-btn btn-save" onclick="saveModal()">Lưu</button>
+<div class="overlay hidden" id="overlay" onclick="overlayClick(event)">
+  <div class="modal">
+    <h3 id="mtitle"></h3>
+    <div id="mbody"></div>
+    <div class="mbtns">
+      <button class="mbtn mbtn-cancel" onclick="closeModal()">Huỷ</button>
+      <button class="mbtn mbtn-save" onclick="saveModal()">Lưu</button>
     </div>
   </div>
 </div>
 
+<!-- Firebase compat (non-module, works with inline onclick) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-const DEFAULT_SECTIONS=[
+firebase.initializeApp({
+  apiKey: "AIzaSyDYcQkmmryxBi4tLJdK2NOGMJSJ8dgEAXQ",
+  authDomain: "ton-kho-home.firebaseapp.com",
+  databaseURL: "https://ton-kho-home-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "ton-kho-home",
+  storageBucket: "ton-kho-home.firebasestorage.app",
+  messagingSenderId: "635233216030",
+  appId: "1:635233216030:web:d2a6d5ed5b88de693d700f"
+});
+const db = firebase.database();
+const dataRef = db.ref('tonkho');
+
+const DEF = [
   {label:'Vệ sinh cá nhân',items:[
     {id:'kem',name:'Kem đánh răng',unit:'tuýp',target:2,def:2},
     {id:'ban-chai',name:'Bàn chải đánh răng',unit:'cái',target:3,def:3},
@@ -193,215 +197,211 @@ const DEFAULT_SECTIONS=[
   ]},
 ];
 
-function loadData(){
-  try{
-    const saved=localStorage.getItem('inv-sections');
-    if(saved) return JSON.parse(saved);
-  }catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT_SECTIONS));
+let sections = JSON.parse(JSON.stringify(DEF));
+let qty = {};
+let editMode = false;
+let mMode = '', mSecIdx = -1;
+
+function syncDot(s) {
+  const d = document.getElementById('sdot');
+  d.className = 'sync-dot ' + s;
 }
-function loadQty(){
-  try{return JSON.parse(localStorage.getItem('inv-qty')||'{}')}catch(e){return {};}
+
+function lv(v) { return v === 0 ? 'danger' : v === 1 ? 'warn' : 'ok'; }
+
+// Firebase listener
+dataRef.on('value', snap => {
+  const d = snap.val();
+  if (d) {
+    if (d.sections) sections = d.sections;
+    if (d.qty) qty = d.qty;
+  } else {
+    sections.forEach(s => s.items.forEach(i => { qty[i.id] = i.def || 0; }));
+    pushAll();
+  }
+  syncDot('ok');
+  document.getElementById('hsub').textContent = 'Nhấn − / + để cập nhật';
+  render();
+}, err => {
+  syncDot('err');
+  document.getElementById('hsub').textContent = 'Offline — dùng dữ liệu local';
+  try { const s = localStorage.getItem('inv-s'); if(s) sections = JSON.parse(s); } catch(e){}
+  try { qty = JSON.parse(localStorage.getItem('inv-q')||'{}'); } catch(e){}
+  sections.forEach(s => s.items.forEach(i => { if(!(i.id in qty)) qty[i.id] = i.def||0; }));
+  render();
+});
+
+function pushAll() {
+  syncDot('syncing');
+  dataRef.set({sections, qty}).then(()=>syncDot('ok')).catch(()=>syncDot('err'));
+  localStorage.setItem('inv-s', JSON.stringify(sections));
+  localStorage.setItem('inv-q', JSON.stringify(qty));
 }
-function saveData(){localStorage.setItem('inv-sections',JSON.stringify(sections));}
-function saveQty(){localStorage.setItem('inv-qty',JSON.stringify(qty));}
+function pushQty() {
+  syncDot('syncing');
+  db.ref('tonkho/qty').set(qty).then(()=>syncDot('ok')).catch(()=>syncDot('err'));
+  localStorage.setItem('inv-q', JSON.stringify(qty));
+}
 
-let sections=loadData();
-let qty=loadQty();
-let editMode=false;
-let modalMode='';
-let modalSecIdx=-1;
+function adj(id, d) { qty[id] = Math.max(0, (qty[id]||0) + d); pushQty(); render(); }
 
-// Init qty defaults
-sections.forEach(s=>s.items.forEach(i=>{if(!(i.id in qty))qty[i.id]=i.def||0;}));
-
-function level(v){return v===0?'danger':v===1?'warn':'ok';}
-function adj(id,delta){qty[id]=Math.max(0,(qty[id]||0)+delta);saveQty();render();}
-
-function toggleEdit(){
-  editMode=!editMode;
-  const btn=document.getElementById('edit-toggle');
-  btn.textContent=editMode?'Xong':'Chỉnh sửa';
-  btn.classList.toggle('active',editMode);
-  document.getElementById('header-sub').textContent=editMode?'Nhấn + thêm / 🗑 xoá mục':'Nhấn − / + để cập nhật';
-  document.getElementById('add-sec-btn').classList.toggle('visible',editMode);
+function toggleEdit() {
+  editMode = !editMode;
+  const btn = document.getElementById('etoggle');
+  btn.textContent = editMode ? 'Xong' : 'Chỉnh sửa';
+  btn.classList.toggle('active', editMode);
+  document.getElementById('hsub').textContent = editMode ? 'Nhấn + thêm / 🗑 xoá mục' : 'Nhấn − / + để cập nhật';
+  document.getElementById('addsec').classList.toggle('visible', editMode);
   render();
 }
 
-function openModal(mode,secIdx,itemId){
-  modalMode=mode;
-  modalSecIdx=secIdx!=null?secIdx:-1;
-  const overlay=document.getElementById('modal-overlay');
-  const title=document.getElementById('modal-title');
-  const body=document.getElementById('modal-body');
-  overlay.classList.remove('hidden');
+function resetAll() {
+  if (!confirm('Bạn có chắc muốn reset tất cả số lượng về 0 không?')) return;
+  sections.forEach(s => s.items.forEach(i => { qty[i.id] = 0; }));
+  pushQty(); render();
+}
 
-  if(mode==='section'){
-    title.textContent='Thêm nhóm mới';
-    body.innerHTML=`<label>Tên nhóm</label><input id="m-sec-name" type="text" placeholder="VD: Thực phẩm dự trữ" maxlength="40">`;
-    setTimeout(()=>document.getElementById('m-sec-name').focus(),100);
-  } else if(mode==='item'){
-    title.textContent='Thêm mục mới';
-    body.innerHTML=`
-      <label>Tên mục</label>
-      <input id="m-name" type="text" placeholder="VD: Nước mắm" maxlength="40">
-      <div class="modal-row">
-        <div><label>Đơn vị</label><input id="m-unit" type="text" placeholder="chai, hộp, gói..." maxlength="10"></div>
-        <div><label>Mục tiêu tồn kho</label><input id="m-target" type="number" min="1" max="99" placeholder="2" value="2"></div>
-      </div>`;
-    setTimeout(()=>document.getElementById('m-name').focus(),100);
-  } else if(mode==='edit-item'){
-    const item=sections[secIdx].items.find(i=>i.id===itemId);
-    title.textContent='Sửa mục';
-    body.innerHTML=`
-      <input type="hidden" id="m-edit-id" value="${item.id}">
-      <label>Tên mục</label>
-      <input id="m-name" type="text" value="${item.name}" maxlength="40">
-      <div class="modal-row">
-        <div><label>Đơn vị</label><input id="m-unit" type="text" value="${item.unit}" maxlength="10"></div>
-        <div><label>Mục tiêu tồn kho</label><input id="m-target" type="number" min="1" max="99" value="${item.target}"></div>
-      </div>`;
-    setTimeout(()=>document.getElementById('m-name').focus(),100);
+function openModal(mode, si, itemId) {
+  mMode = mode; mSecIdx = si != null ? si : -1;
+  document.getElementById('overlay').classList.remove('hidden');
+  const title = document.getElementById('mtitle');
+  const body = document.getElementById('mbody');
+  if (mode === 'section') {
+    title.textContent = 'Thêm nhóm mới';
+    body.innerHTML = '<label>Tên nhóm</label><input id="m-sname" type="text" placeholder="VD: Thực phẩm dự trữ" maxlength="40">';
+    setTimeout(() => document.getElementById('m-sname').focus(), 100);
+  } else if (mode === 'item') {
+    title.textContent = 'Thêm mục mới';
+    body.innerHTML = '<label>Tên mục</label><input id="m-name" type="text" placeholder="VD: Nước mắm" maxlength="40"><div class="mrow"><div><label>Đơn vị</label><input id="m-unit" type="text" placeholder="chai, hộp..." maxlength="10"></div><div><label>Mục tiêu</label><input id="m-target" type="number" min="1" max="99" value="2"></div></div>';
+    setTimeout(() => document.getElementById('m-name').focus(), 100);
+  } else if (mode === 'edit') {
+    const item = sections[si].items.find(i => i.id === itemId);
+    title.textContent = 'Sửa mục';
+    body.innerHTML = '<input type="hidden" id="m-eid" value="'+itemId+'"><label>Tên mục</label><input id="m-name" type="text" value="'+item.name+'" maxlength="40"><div class="mrow"><div><label>Đơn vị</label><input id="m-unit" type="text" value="'+item.unit+'" maxlength="10"></div><div><label>Mục tiêu</label><input id="m-target" type="number" min="1" max="99" value="'+item.target+'"></div></div>';
+    setTimeout(() => document.getElementById('m-name').focus(), 100);
   }
 }
+function closeModal() { document.getElementById('overlay').classList.add('hidden'); }
+function overlayClick(e) { if (e.target.id === 'overlay') closeModal(); }
 
-function closeModal(){document.getElementById('modal-overlay').classList.add('hidden');}
-function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
-
-function saveModal(){
-  if(modalMode==='section'){
-    const name=document.getElementById('m-sec-name').value.trim();
-    if(!name)return;
-    sections.push({label:name,items:[]});
-    saveData();
-  } else if(modalMode==='item'){
-    const name=document.getElementById('m-name').value.trim();
-    const unit=document.getElementById('m-unit').value.trim()||'cái';
-    const target=parseInt(document.getElementById('m-target').value)||2;
-    if(!name)return;
-    const id='item-'+Date.now();
-    sections[modalSecIdx].items.push({id,name,unit,target,def:target});
-    qty[id]=target;
-    saveData();saveQty();
-  } else if(modalMode==='edit-item'){
-    const id=document.getElementById('m-edit-id').value;
-    const name=document.getElementById('m-name').value.trim();
-    const unit=document.getElementById('m-unit').value.trim()||'cái';
-    const target=parseInt(document.getElementById('m-target').value)||2;
-    if(!name)return;
-    const item=sections[modalSecIdx].items.find(i=>i.id===id);
-    if(item){item.name=name;item.unit=unit;item.target=target;}
-    saveData();
+function saveModal() {
+  if (mMode === 'section') {
+    const n = document.getElementById('m-sname').value.trim();
+    if (!n) return;
+    sections.push({label:n, items:[]});
+  } else if (mMode === 'item') {
+    const n = document.getElementById('m-name').value.trim();
+    const u = document.getElementById('m-unit').value.trim() || 'cái';
+    const t = parseInt(document.getElementById('m-target').value) || 2;
+    if (!n) return;
+    const id = 'i' + Date.now();
+    sections[mSecIdx].items.push({id, name:n, unit:u, target:t, def:t});
+    qty[id] = t;
+  } else if (mMode === 'edit') {
+    const id = document.getElementById('m-eid').value;
+    const n = document.getElementById('m-name').value.trim();
+    const u = document.getElementById('m-unit').value.trim() || 'cái';
+    const t = parseInt(document.getElementById('m-target').value) || 2;
+    if (!n) return;
+    const item = sections[mSecIdx].items.find(i => i.id === id);
+    if (item) { item.name=n; item.unit=u; item.target=t; }
   }
-  closeModal();
-  render();
+  closeModal(); pushAll(); render();
 }
 
-function deleteItem(secIdx,itemId){
-  if(!confirm('Xoá mục này?'))return;
-  sections[secIdx].items=sections[secIdx].items.filter(i=>i.id!==itemId);
-  delete qty[itemId];
-  saveData();saveQty();render();
+function delItem(si, id) {
+  if (!confirm('Xoá mục này?')) return;
+  sections[si].items = sections[si].items.filter(i => i.id !== id);
+  delete qty[id];
+  pushAll(); render();
+}
+function delSection(si) {
+  if (!confirm('Xoá nhóm "' + sections[si].label + '" và tất cả mục bên trong?')) return;
+  sections[si].items.forEach(i => delete qty[i.id]);
+  sections.splice(si, 1);
+  pushAll(); render();
 }
 
-function deleteSection(secIdx){
-  if(!confirm('Xoá nhóm "'+sections[secIdx].label+'" và tất cả mục bên trong?'))return;
-  sections[secIdx].items.forEach(i=>delete qty[i.id]);
-  sections.splice(secIdx,1);
-  saveData();saveQty();render();
-}
+function render() {
+  const all = sections.flatMap(s => s.items);
+  const nOk = all.filter(i => lv(qty[i.id]||0)==='ok').length;
+  const nWarn = all.filter(i => lv(qty[i.id]||0)==='warn').length;
+  const nDanger = all.filter(i => lv(qty[i.id]||0)==='danger').length;
 
-function render(){
-  const allItems=sections.flatMap(s=>s.items);
-  const cntOk=allItems.filter(i=>level(qty[i.id]||0)==='ok').length;
-  const cntWarn=allItems.filter(i=>level(qty[i.id]||0)==='warn').length;
-  const cntDanger=allItems.filter(i=>level(qty[i.id]||0)==='danger').length;
-  document.getElementById('stats').innerHTML=`
-    <div class="stat-card"><div class="num n-ok">${cntOk}</div><div class="lbl">Đủ rồi</div></div>
-    <div class="stat-card"><div class="num n-warn">${cntWarn}</div><div class="lbl">Sắp hết</div></div>
-    <div class="stat-card"><div class="num n-danger">${cntDanger}</div><div class="lbl">Mua ngay</div></div>`;
+  document.getElementById('stats').innerHTML =
+    '<div class="stat-card"><div class="num n-ok">'+nOk+'</div><div class="lbl">Đủ rồi</div></div>' +
+    '<div class="stat-card"><div class="num n-warn">'+nWarn+'</div><div class="lbl">Sắp hết</div></div>' +
+    '<div class="stat-card"><div class="num n-danger">'+nDanger+'</div><div class="lbl">Mua ngay</div></div>';
 
-  let html='';
-  sections.forEach((sec,si)=>{
-    html+=`<div class="sec-header">
-      <span class="sec-label">${sec.label}</span>
-      <div style="display:flex;gap:6px;align-items:center">
-        <button class="sec-add-btn${editMode?' visible':''}" onclick="openModal('item',${si})">+ Thêm mục</button>
-        ${editMode?`<button onclick="deleteSection(${si})" style="font-size:12px;padding:3px 8px;border-radius:6px;border:0.5px solid rgba(220,50,50,0.3);background:#fcebeb;color:#a32d2d;cursor:pointer;">Xoá nhóm</button>`:''}
-      </div>
-    </div>`;
-    if(sec.items.length===0&&editMode){
-      html+=`<div style="padding:10px 16px;font-size:13px;color:#888780;font-style:italic">Chưa có mục nào</div>`;
+  // Summary
+  const needNow = all.filter(i => lv(qty[i.id]||0)==='danger');
+  const needSoon = all.filter(i => lv(qty[i.id]||0)==='warn');
+  let sh = '<div class="summary"><div class="sum-hdr"><span class="ttl"><i class="ti ti-shopping-cart" style="font-size:15px;vertical-align:-2px;margin-right:6px"></i>Cần mua</span><div class="sbadges"><span class="sbadge sb-r">'+needNow.length+' ngay</span><span class="sbadge sb-y">'+needSoon.length+' sắp hết</span></div></div><div class="buy-list">';
+  if (!needNow.length && !needSoon.length) {
+    sh += '<p class="empty">Tất cả đã đủ!</p>';
+  } else {
+    if (needNow.length) {
+      sh += '<div class="grp-lbl gl-r">Mua ngay — còn 0</div>';
+      needNow.forEach(i => { sh += '<div class="buy-row"><div class="dot dot-r"></div><span style="flex:1">'+i.name+'</span><span style="font-size:12px;color:#888780">cần '+i.target+' '+i.unit+'</span></div>'; });
     }
-    sec.items.forEach(item=>{
-      const v=qty[item.id]||0;
-      const lv=level(v);
-      const rowCls=editMode?'edit-mode':lv==='ok'?'ok':lv==='warn'?'warning':'danger';
-      const pillCls=lv==='ok'?'pill-ok':lv==='warn'?'pill-warn':'pill-danger';
-      const pillTxt=lv==='ok'?'Đủ rồi':lv==='warn'?'Sắp hết':'Mua ngay';
-      html+=`<div class="row ${rowCls}">
-        <div class="item-info" onclick="${editMode?`openModal('edit-item',${si},'${item.id}')`:''}">
-          <div class="item-name">${item.name}</div>
-          <div class="item-target">mục tiêu: ${item.target} ${item.unit}</div>
-        </div>`;
-      if(editMode){
-        html+=`<button class="del-btn visible" onclick="deleteItem(${si},'${item.id}')" aria-label="Xoá"><i class="ti ti-trash" style="font-size:14px" aria-hidden="true"></i></button>`;
+    if (needSoon.length) {
+      sh += '<div class="grp-lbl gl-y" style="margin-top:'+(needNow.length?'8px':'0')+'">Sắp hết — còn 1</div>';
+      needSoon.forEach(i => { sh += '<div class="buy-row"><div class="dot dot-y"></div><span style="flex:1">'+i.name+'</span><span style="font-size:12px;color:#888780">còn 1 / '+i.target+' '+i.unit+'</span></div>'; });
+    }
+  }
+  sh += '</div><button class="copy-btn" onclick="copyList()"><i class="ti ti-copy" style="font-size:14px"></i>Sao chép danh sách</button></div>';
+  document.getElementById('summary').innerHTML = sh;
+
+  // Sections
+  let html = '';
+  sections.forEach((sec, si) => {
+    html += '<div class="sec-header"><span class="sec-label">'+sec.label+'</span><div style="display:flex;gap:6px;align-items:center">';
+    html += '<button class="sec-add-btn'+(editMode?' visible':'')+'" onclick="openModal(\'item\','+si+')">+ Thêm mục</button>';
+    if (editMode) html += '<button onclick="delSection('+si+')" style="font-size:12px;padding:3px 8px;border-radius:6px;border:0.5px solid rgba(220,50,50,0.3);background:#fcebeb;color:#a32d2d;cursor:pointer;">Xoá nhóm</button>';
+    html += '</div></div>';
+    if (!sec.items.length && editMode) html += '<div style="padding:10px 16px;font-size:13px;color:#888780;font-style:italic">Chưa có mục nào</div>';
+    sec.items.forEach(item => {
+      const v = qty[item.id] || 0;
+      const l = lv(v);
+      const rc = editMode ? 'emode' : l === 'ok' ? 'ok' : l === 'warn' ? 'warning' : 'danger';
+      const pc = l === 'ok' ? 'pill-ok' : l === 'warn' ? 'pill-warn' : 'pill-danger';
+      const pt = l === 'ok' ? 'Đủ rồi' : l === 'warn' ? 'Sắp hết' : 'Mua ngay';
+      html += '<div class="row '+rc+'">';
+      html += '<div class="item-info"'+(editMode?' onclick="openModal(\'edit\','+si+',\''+item.id+'\')"':'')+'>'+
+              '<div class="item-name">'+item.name+'</div>'+
+              '<div class="item-target">mục tiêu: '+item.target+' '+item.unit+'</div></div>';
+      if (editMode) {
+        html += '<button class="del-btn visible" onclick="delItem('+si+',\''+item.id+'\')" aria-label="Xoá"><i class="ti ti-trash"></i></button>';
       } else {
-        html+=`<div class="qty-wrap">
-          <button class="qty-btn" onclick="adj('${item.id}',-1)" aria-label="Giảm">−</button>
-          <span class="qty-val">${v}</span>
-          <button class="qty-btn" onclick="adj('${item.id}',1)" aria-label="Tăng">+</button>
-        </div>
-        <span class="status-pill ${pillCls}">${pillTxt}</span>`;
+        html += '<div class="qty-wrap">'+
+                '<button class="qty-btn" onclick="adj(\''+item.id+'\',-1)" aria-label="Giảm">−</button>'+
+                '<span class="qty-val">'+v+'</span>'+
+                '<button class="qty-btn" onclick="adj(\''+item.id+'\',1)" aria-label="Tăng">+</button>'+
+                '</div><span class="status-pill '+pc+'">'+pt+'</span>';
       }
-      html+=`</div>`;
+      html += '</div>';
     });
   });
-  document.getElementById('sections').innerHTML=html;
-
-  const needNow=allItems.filter(i=>level(qty[i.id]||0)==='danger');
-  const needSoon=allItems.filter(i=>level(qty[i.id]||0)==='warn');
-  let sumHtml=`<div class="summary"><div class="sum-header">
-    <span class="title"><i class="ti ti-shopping-cart" style="font-size:15px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i>Cần mua</span>
-    <div class="sum-badges">
-      <span class="sum-badge sb-danger">${needNow.length} ngay</span>
-      <span class="sum-badge sb-warn">${needSoon.length} sắp hết</span>
-    </div>
-  </div><div class="buy-list">`;
-  if(!needNow.length&&!needSoon.length){
-    sumHtml+=`<p class="empty">Tất cả đã đủ!</p>`;
-  } else {
-    if(needNow.length){
-      sumHtml+=`<div class="grp-label grp-danger">Mua ngay — còn 0</div>`;
-      needNow.forEach(i=>{sumHtml+=`<div class="buy-row"><div class="dot dot-danger"></div><span style="flex:1">${i.name}</span><span style="font-size:12px;color:#888780">cần ${i.target} ${i.unit}</span></div>`;});
-    }
-    if(needSoon.length){
-      sumHtml+=`<div class="grp-label grp-warn" style="margin-top:${needNow.length?'8px':'0'}">Sắp hết — còn 1</div>`;
-      needSoon.forEach(i=>{sumHtml+=`<div class="buy-row"><div class="dot dot-warn"></div><span style="flex:1">${i.name}</span><span style="font-size:12px;color:#888780">còn 1 / ${i.target} ${i.unit}</span></div>`;});
-    }
-  }
-  sumHtml+=`</div><button class="copy-btn" onclick="copyList()"><i class="ti ti-copy" style="font-size:14px" aria-hidden="true"></i>Sao chép danh sách</button></div>`;
-  document.getElementById('summary').innerHTML=sumHtml;
+  document.getElementById('sections').innerHTML = html;
 }
 
-function copyList(){
-  const allItems=sections.flatMap(s=>s.items);
-  const needNow=allItems.filter(i=>level(qty[i.id]||0)==='danger');
-  const needSoon=allItems.filter(i=>level(qty[i.id]||0)==='warn');
-  if(!needNow.length&&!needSoon.length){alert('Không có gì cần mua!');return;}
-  let text='Danh sách cần mua:\n\n';
-  if(needNow.length)text+='MUA NGAY:\n'+needNow.map(i=>`[ ] ${i.name} — cần ${i.target} ${i.unit}`).join('\n')+'\n\n';
-  if(needSoon.length)text+='SẮP HẾT:\n'+needSoon.map(i=>`[ ] ${i.name}`).join('\n');
-  navigator.clipboard.writeText(text.trim()).then(()=>{
-    const btn=document.querySelector('.copy-btn');
-    const orig=btn.innerHTML;
-    btn.innerHTML='<i class="ti ti-check" style="font-size:14px"></i> Đã sao chép!';
-    setTimeout(()=>{btn.innerHTML=orig},2000);
-  }).catch(()=>alert(text));
+function copyList() {
+  const all = sections.flatMap(s => s.items);
+  const n = all.filter(i => lv(qty[i.id]||0)==='danger');
+  const w = all.filter(i => lv(qty[i.id]||0)==='warn');
+  if (!n.length && !w.length) { alert('Không có gì cần mua!'); return; }
+  let t = 'Danh sách cần mua:\n\n';
+  if (n.length) t += 'MUA NGAY:\n' + n.map(i => '[ ] '+i.name+' — cần '+i.target+' '+i.unit).join('\n') + '\n\n';
+  if (w.length) t += 'SẮP HẾT:\n' + w.map(i => '[ ] '+i.name).join('\n');
+  navigator.clipboard.writeText(t.trim()).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i class="ti ti-check" style="font-size:14px"></i> Đã sao chép!';
+    setTimeout(() => { btn.innerHTML = orig; }, 2000);
+  }).catch(() => alert(t));
 }
 
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
-render();
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(() => {}); }
 </script>
 </body>
 </html>
